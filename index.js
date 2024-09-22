@@ -5,10 +5,16 @@ const { connectToMongoDB } = require("./database");
 const app = express();
 app.use(express.json());
 
-var cors = require("cors");
+app.use((req, res, next) => {
+  const origin = req.headers.origin;
 
-app.use(cors());
-
+  res.setHeader("Access-Control-Allow-Origin", origin);
+  res.header(
+    "Access-Control-Allow-Headers",
+    "Origin,X-Requested-With,Content-Type,Accept"
+  );
+  next();
+});
 
 const router = require("./routes");
 app.use("/api", router);
