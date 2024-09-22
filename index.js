@@ -6,9 +6,10 @@ const app = express();
 app.use(express.json());
 
 app.use((req, res, next) => {
-  const origin = req.headers.origin;
-
-  res.setHeader("Access-Control-Allow-Origin", origin);
+  const allowedOrigin = process.env.ALLOWED_ORIGIN;
+  if (req.headers.origin === allowedOrigin) {
+    res.setHeader("Access-Control-Allow-Origin", allowedOrigin);
+  }
   res.header(
     "Access-Control-Allow-Headers",
     "Origin,X-Requested-With,Content-Type,Accept"
